@@ -1,5 +1,4 @@
 #include "../include/simulation.h"
-#include "../include/utils.h"
 
 using namespace std;
 
