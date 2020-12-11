@@ -25,7 +25,6 @@ private:
 
     // Higher level objects
     vector<Particle> parts; // vector of Particles
-    vector<string> outfiles_names; // vector of outfile names
     Disc disc; // disc object
 
     // useful methods used by the public methods of this class
