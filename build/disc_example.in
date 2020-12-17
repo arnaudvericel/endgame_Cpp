@@ -16,7 +16,7 @@ igrow(0=no,1=yes)	ifrag(0=no,1=yes)	isnow(0=no,1=pos,2=temp)	ibump(0=no,1=yes)	i
 
 #Timestep options#
 dt as the number of steps per orbits at r0	tmax as the number of orbits at r0	total number of lines in dumps desired
-1						400000					5000
+1						400000					1000
 
 #Output directory
 Name of the output directory	isort(0=no,1=yes)	end_only(0=no, 1=yes)

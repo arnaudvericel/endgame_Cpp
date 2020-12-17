@@ -1,3 +1,4 @@
 /build/*.dat
 /build/endgame
-/build/*_example.in
+/build/dust.in
+/build/disc.in
