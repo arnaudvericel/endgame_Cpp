@@ -9,6 +9,10 @@
 #include <fstream>
 #include <iostream>
 
+#ifdef THANOS
+#include "thanos.h"
+#endif
+
 /* Simulation class is a wrapper of the other classes */
 class Simulation {
 private:
@@ -26,11 +30,15 @@ private:
     // Higher level objects
     vector<Particle> parts; // vector of Particles
     Disc disc; // disc object
+#ifdef THANOS
+    Thanos thanos; // if Thanos if invoked
+#endif
 
     // useful methods used by the public methods of this class
     void display_code_name();
     void display_loading_bar();
     bool isWritingStep();
+    bool count_is_balanced(int);
 public:
     /* constructor */
     Simulation(); // print code name here

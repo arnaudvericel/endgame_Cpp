@@ -102,6 +102,10 @@ void Simulation::init_units() {
     delta_time *= time_factor;
     maximum_time *= time_factor;
 
+#ifdef THANOS
+    thanos.init_punchline();
+#endif
+
     disc.print_model();
 }
 
@@ -124,20 +128,29 @@ void Simulation::evolve() {
         }
         display_loading_bar();
     }
+#ifdef THANOS
+    thanos.talks_to_gamora();
+#endif
 }
 
 void Simulation::print_summary() {
 
-    int is_accreted = 0;
+    int n_accreted = 0;
 
     for (Particle& p: this->parts) {
-        if (p.isAccreted()) { is_accreted++; }
+        if (p.isAccreted()) { n_accreted++; }
     }
 
     // TO EMBELISH
-    cout << "\nPrinting summary after " << int(maximum_time/constants::years/1000) << " kyrs of simulation..." << endl;
+    cout << "\nPrinting summary after " << int(maximum_time/constants::years/1000) << " kyrs of simulation:" << endl;
     cout << left << setw(10) << "Accreted" << setw(3) << "|" << setw(10) << "Non-accreted" << endl;
-    cout << left << setw(10) << is_accreted << setw(3) << "|" << setw(10) << Particle::particle_count - is_accreted << endl;
+    cout << left << setw(10) << n_accreted << setw(3) << "|" << setw(10) << Particle::particle_count - n_accreted << endl;
+
+#ifdef THANOS
+    thanos.print_artwork();
+    if (count_is_balanced(n_accreted)) { thanos.balanced_ending(); }
+    else { thanos.regular_ending(); }
+#endif
 }
 
 /*************************************/
@@ -185,4 +198,11 @@ bool Simulation::isWritingStep() {
     if (n_dumps >= nstep) { return true; }
 
     return (step%writing_step == 0) ;
+}
+
+bool Simulation::count_is_balanced(int n_accreted) {
+    double threshold = 0.1; // 10% threshold for test TODO adjust
+    double ratio = static_cast<double>(n_accreted/Particle::particle_count);
+
+    return (abs(ratio - 0.5) <= threshold);
 }
