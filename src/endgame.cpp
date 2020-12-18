@@ -16,7 +16,7 @@ int main() {
 
     sim.evolve();
 
-    sim.print_summary(); // TO EMBELISH
+    sim.print_summary();
 
   return 0;
 }
