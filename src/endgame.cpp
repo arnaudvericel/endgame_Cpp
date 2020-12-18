@@ -12,7 +12,7 @@ int main() {
     sim.read_disc_infile(disc_filename);
     sim.read_particle_infile(dust_filename);
 
-    sim.init_units();
+    sim.init_all();
 
     sim.evolve();
 
