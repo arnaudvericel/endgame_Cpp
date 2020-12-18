@@ -1,9 +1,6 @@
 #ifdef THANOS // only compile this part if thanos has been requested by user
 
 #include "../include/thanos.h"
-#include "unistd.h"
-#include <fstream>
-#include <cstdlib>
 
 /*************************************/
 /************** PUBLIC ***************/

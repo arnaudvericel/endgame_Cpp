@@ -4,6 +4,9 @@
 
 #include <iostream>
 #include <vector>
+#include "unistd.h"
+#include <fstream>
+#include <cstdlib>
 
 using namespace std;
 
