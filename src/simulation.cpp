@@ -108,7 +108,7 @@ void Simulation::init_all() {
     delta_time *= time_factor;
     maximum_time *= time_factor;
 
-    michel.set_dirname(dir_name);
+    if (isort == 1) { michel.set_dirname(dir_name); }
 
 #ifdef THANOS
     thanos.init_punchline();
