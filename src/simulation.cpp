@@ -5,6 +5,10 @@
 /*************************************/
 
 Simulation::Simulation() {
+    // infile related
+    dust_infile = "";
+    disc_infile = "";
+
     // timestep options
     current_time = 0.;
     maximum_time = 0.;
@@ -20,6 +24,7 @@ Simulation::Simulation() {
 }
 
 void Simulation::read_particle_infile(string filename) {
+    dust_infile = filename;
 
     cout << "Reading file " << filename << "\n\t";
 
@@ -57,6 +62,7 @@ void Simulation::read_particle_infile(string filename) {
 }
 
 void Simulation::read_disc_infile(string filename) {
+    disc_infile = filename;
 
     string tata;
     int nsteps = 0;
@@ -89,7 +95,7 @@ void Simulation::read_disc_infile(string filename) {
     infile.close();
 }
 
-void Simulation::init_units() {
+void Simulation::init_all() {
     // init disc units
     this->disc.init_units();
 
@@ -101,6 +107,8 @@ void Simulation::init_units() {
     double time_factor = 2*constants::pi/(disc.get_omega_k(disc.get_rzero()));
     delta_time *= time_factor;
     maximum_time *= time_factor;
+
+    michel.set_dirname(dir_name);
 
 #ifdef THANOS
     thanos.init_punchline();
@@ -145,6 +153,8 @@ void Simulation::print_summary() {
     cout << "\nPrinting summary after " << int(maximum_time/constants::years/1000) << " kyrs of simulation:" << endl;
     cout << left << setw(10) << "Accreted" << setw(3) << "|" << setw(10) << "Non-accreted" << endl;
     cout << left << setw(10) << n_accreted << setw(3) << "|" << setw(10) << Particle::particle_count - n_accreted << endl;
+
+    if (isort == 1) { michel.sort_files(dust_infile, disc_infile, this->get_part_filenames()); }
 
 #ifdef THANOS
     thanos.print_artwork();
@@ -205,4 +215,12 @@ bool Simulation::count_is_balanced(int n_accreted) {
     double ratio = static_cast<double>(n_accreted/Particle::particle_count);
 
     return (abs(ratio - 0.5) <= threshold);
+}
+
+vector<string> Simulation::get_part_filenames() {
+    vector<string> filenames;
+    for (Particle& p: this->parts) {
+        filenames.push_back(p.get_filename());
+    }
+    return filenames;
 }

@@ -2,6 +2,7 @@
 #define SIMULATION_H
 
 #include "particle.h"
+#include "manager.h"
 #include "utils.h"
 #include "disc.h"
 #include <vector>
@@ -16,6 +17,10 @@
 /* Simulation class is a wrapper of the other classes */
 class Simulation {
 private:
+    // infiles related
+    string dust_infile;
+    string disc_infile;
+
     // timestep options
     double current_time;
     double maximum_time;
@@ -30,6 +35,7 @@ private:
     // Higher level objects
     vector<Particle> parts; // vector of Particles
     Disc disc; // disc object
+    Manager michel;
 #ifdef THANOS
     Thanos thanos; // if Thanos if invoked
 #endif
@@ -39,6 +45,7 @@ private:
     void display_loading_bar();
     bool isWritingStep();
     bool count_is_balanced(int);
+    vector<string> get_part_filenames();
 public:
     /* constructor */
     Simulation(); // print code name here
@@ -49,7 +56,7 @@ public:
     /* methods */
     void read_particle_infile(string); // fill Particles vector
     void read_disc_infile(string); // fill Disc properties
-    void init_units(); // init in SI units
+    void init_all(); // init in SI units
     void evolve(); // time iteration and file output writing
     void print_summary(); // end of simulation summary
 };

@@ -37,6 +37,8 @@ Particle::Particle(double s, double r, double rh): Particle() {
 
 bool Particle::isAccreted() { return accreted; }
 
+string Particle::get_filename() { return file; }
+
 void Particle::init_units() {
     this->radius *= constants::au;
     this->rho    *= 1000;

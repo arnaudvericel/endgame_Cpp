@@ -50,6 +50,9 @@ public:
     // status access
     bool isAccreted();
 
+    // getter
+    string get_filename();
+
     // template column format method
     template<class T>
     void column_format(fstream& f, int width, int precision, T element) {
