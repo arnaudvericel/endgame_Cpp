@@ -7,37 +7,46 @@ The user has the possibility to add a few physical processes such as growth, fra
 
 ---
 
-The code requires 2 .in files : disc.in and dust.in.
+The code requires 2 input files : a "disc.in" and a "dust.in" (names are not important, only their content are).
 
-- disc.in states the disc properties and the physics involved
-- dust.in specifies the number of grains you want to simulate as well as their initial radii, sizes and intrinsic densities.
+- the disc infile states the disc properties and the physics involved.
+- the dust infile specifies the number of grains that need to be simulated as well as their initial radii, sizes and intrinsic densities.
 
 ---
 
-The output is of the form of files such as "px.dat" where x is the dust grain number formatted at 3 digits.
-There is one output per grain throughout the simulation.
+The output consists of a file "px.dat" per particle, where x is the dust grain number formatted at 3 digits.
+Each file contains the evolution of the particle's properties across the simulatio (e.g. radii, size, density, etc).
 
 ---
 
 ## Installation:
 
-To make the executable "endgame", set your SYSTEM compiler and type:
+To make the executable "endgame", make sure you have the g++ compiler and type:
 
 ```
 make
 ```
 
-For those who have time to waste, Thanos can also make some comments throughout the execution of the code. To allow Thanos to monologue sometimes, compile the code with `THANOS=yes`.
+For those who have time to waste, Thanos can also make some comments throughout the execution of the code. To allow Thanos to monologue, sometimes, compile the code with `THANOS=yes`.
 
-## Quick get started:
+---
+
+## Your first endgame simulation:
+
+To execute endgame, the user needs to provide 2 command line arguments in the order specified below :
+
+* the name of the disc input file.
+* the name of the dust input file.
 
 To launch your first endgame simulation, go to the `build/` directory and type:
 
 ```
-./endgame
+./endgame disc_example.in dust_example.in
 ```
 
-which is going to launch the code with the example input files (dust.in and disc.in) of that directory.
+which is going to launch the code with the example input files of that directory.
+
+---
 
 ## Command line output examples:
 
@@ -175,3 +184,7 @@ Thanos: Today, I lost more than you can know. But now is no time to mourn. Now i
 ```
 
 * Note that the final Thanos punchline is randomly generated from the thanos quotes database, but also depends on the output of the calculations (e.g. : how many particles were accreted).
+
+---
+
+Enjoy!
