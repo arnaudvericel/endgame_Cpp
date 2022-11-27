@@ -24,7 +24,7 @@ Each file contains the evolution of the particle's properties across the simulat
 To make the executable "endgame", make sure you have the g++ compiler and type:
 
 ```
-make
+make all
 ```
 
 For those who have time to waste, Thanos can also make some comments throughout the execution of the code. To allow Thanos to monologue, sometimes, compile the code with `THANOS=yes`.
