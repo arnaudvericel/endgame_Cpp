@@ -31,7 +31,7 @@ private:
     double rho;
 
     // outfiles
-    string file;
+    string filename;
 
     // method
     void set_filename();
@@ -48,12 +48,13 @@ public:
     ~Particle() = default;
 
     // status access
-    bool isAccreted();
+    bool is_accreted() const;
 
     // getter
-    string get_filename();
+    string get_filename() const;
 
     // template column format method
+    // used to print a variable inside a column text format no matter its type
     template<class T>
     void column_format(fstream& f, int width, int precision, T element) {
         f << left << setw(width) << setprecision(precision) << element << "\t";

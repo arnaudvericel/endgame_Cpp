@@ -12,10 +12,10 @@ using namespace std;
 class Manager {
 private:
     string run_directory;
-    bool directory_is_present(string);
-    void create_output_dir(string);
-    void move_file(string);
-    void copy_file(string);
+    bool directory_is_present(string) const;
+    void create_output_dir(string) const;
+    void move_file(string) const;
+    void copy_file(string) const;
 public:
     // constructor
     Manager();
@@ -27,7 +27,7 @@ public:
     void set_dirname(string);
 
     // method
-    void sort_files(string, string, vector<string>);
+    void sort_files(string, string, vector<string>) const;
 };
 
 #endif

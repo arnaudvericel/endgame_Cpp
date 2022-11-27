@@ -55,30 +55,33 @@ Disc::Disc() {
 
 /* GETTERS - FUNCTIONS */
 
-double Disc::get_vk(double r) { return get_omega_k(r)*r; }
+double Disc::get_vk(double r) const { return get_omega_k(r)*r; }
 
-double Disc::get_nu(double r) { return alpha*get_cs(r)*get_h(r); }
+double Disc::get_nu(double r) const { return alpha*get_cs(r)*get_h(r); }
 
-double Disc::get_cs(double r) { return cszero*pow((r/rzero),(-q/2.)); }
+double Disc::get_cs(double r) const { return cszero*pow((r/rzero),(-q/2.)); }
 
-double Disc::get_sigmag(double r) { return sigmagzero*pow((r/rzero),(-p)) + 0.*phi*sigmagzero*exp(-pow((r-rbump),2)/(2*pow(w,2))); } // TODO: ibump
+double Disc::get_sigmag(double r) const
+{
+    return sigmagzero*pow((r/rzero),(-p)) + 0.*phi*sigmagzero*exp(-pow((r-rbump),2)/(2*pow(w,2)));
+}
 
-double Disc::get_omega_k(double r) { return sqrt(gg*mstar/pow(r,3)); }
+double Disc::get_omega_k(double r) const { return sqrt(gg*mstar/pow(r,3)); }
 
-double Disc::get_press(double r) { return pow(get_cs(r),2) * get_rhog(r); }
+double Disc::get_press(double r) const { return pow(get_cs(r),2) * get_rhog(r); }
 
-double Disc::get_rhog(double r) { return get_sigmag(r)/(sqrt(2*constants::pi)*get_h(r)); }
+double Disc::get_rhog(double r) const { return get_sigmag(r)/(sqrt(2*constants::pi)*get_h(r)); }
 
-double Disc::get_h(double r) { return get_cs(r)/get_omega_k(r); }
+double Disc::get_h(double r) const { return get_cs(r)/get_omega_k(r); }
 
-double Disc::get_hoverr(double r) { return get_h(r)/r; }
+double Disc::get_hoverr(double r) const { return get_h(r)/r; }
 
-double Disc::get_Temp(double r) { return Tzero*pow(r/rzero,-q); }
+double Disc::get_Temp(double r) const { return Tzero*pow(r/rzero,-q); }
 
-double Disc::get_epsi(double r) { return epsilon + ibump*(epsimax-epsilon)*exp(-pow((r-rbump),2)/(2*pow(w,2))); }
+double Disc::get_epsi(double r) const { return epsilon + ibump*(epsimax-epsilon)*exp(-pow((r-rbump),2)/(2*pow(w,2))); }
 
-double Disc::get_vdrift(double St, double r) {
-
+double Disc::get_vdrift(double St, double r) const
+{
     double deriv = pow(get_hoverr(r),2) * get_vk(r) * ((get_press(r+constants::earthr) - get_press(r-constants::earthr))/(2*constants::earthr)) * r/get_press(r);
     double eps = 0;
 
@@ -86,7 +89,7 @@ double Disc::get_vdrift(double St, double r) {
 
      return St / (pow((1.+eps),2) + pow(St,2)) * deriv;
 }
-double Disc::get_vvisc(double St, double r) {
+double Disc::get_vvisc(double St, double r) const {
 
     double K = 3./(r*get_rhog(r)*get_vk(r));
     double deriv = (get_rhog(r+constants::earthr)*get_nu(r+constants::earthr)*(r+constants::earthr)*get_vk(r+constants::earthr) - get_rhog(r-constants::earthr)*get_nu(r-constants::earthr)*(r-constants::earthr)*get_vk(r-constants::earthr)) / (2*constants::earthr);
@@ -99,35 +102,35 @@ double Disc::get_vvisc(double St, double r) {
 
 /* GETTERS - ATTRIBUTES */
 
-double Disc::get_rzero() { return rzero; }
+double Disc::get_rzero() const { return rzero; }
 
-double Disc::get_vfrag() { return vfrag; }
+double Disc::get_vfrag() const { return vfrag; }
 
-double Disc::get_vfragin() { return vfragin; }
+double Disc::get_vfragin() const { return vfragin; }
 
-double Disc::get_vfragout() { return vfragout; }
+double Disc::get_vfragout() const { return vfragout; }
 
-double Disc::get_rsnow() { return rsnow; }
+double Disc::get_rsnow() const { return rsnow; }
 
-double Disc::get_Tsnow() { return Tsnow; }
+double Disc::get_Tsnow() const { return Tsnow; }
 
-double Disc::get_smin() { return smin; }
+double Disc::get_smin() const { return smin; }
 
-double Disc::get_alpha() { return alpha; }
+double Disc::get_alpha() const { return alpha; }
 
-double Disc::get_racc() { return racc; }
+double Disc::get_racc() const { return racc; }
 
-int Disc::get_igrow() { return igrow; }
+int Disc::get_igrow() const { return igrow; }
 
-int Disc::get_ifrag() { return ifrag; }
+int Disc::get_ifrag() const { return ifrag; }
 
-int Disc::get_isnow() { return isnow; }
+int Disc::get_isnow() const { return isnow; }
 
-int Disc::get_ibump() { return ibump; }
+int Disc::get_ibump() const { return ibump; }
 
-int Disc::get_istate() { return istate; }
+int Disc::get_istate() const { return istate; }
 
-int Disc::get_ibr() { return ibr; }
+int Disc::get_ibr() const { return ibr; }
 
 /* METHODS */
 
@@ -165,7 +168,7 @@ void Disc::init_units() {
     rhogzero = sigmagzero / (sqrt(2*pi)*cszero/get_omega_k(rzero));
 }
 
-void Disc::print_model() {
+void Disc::print_model() const {
 
     int width = 10;
     int preci = 2;

@@ -35,9 +35,9 @@ Particle::Particle(double s, double r, double rh): Particle() {
     this->rho    = rh;
 }
 
-bool Particle::isAccreted() { return accreted; }
+bool Particle::is_accreted() const { return accreted; }
 
-string Particle::get_filename() { return file; }
+string Particle::get_filename() const { return filename; }
 
 void Particle::init_units() {
     this->radius *= constants::au;
@@ -97,7 +97,7 @@ void Particle::update_size(double dt, Disc& disc) {
     }
 }
 
-void Particle::update_state(double dt, Disc& disc) {}
+void Particle::update_state(double dt, Disc& disc) { /* TODO */ }
 
 void Particle::update_radius(double dt, Disc& disc) {
 
@@ -116,7 +116,7 @@ void Particle::update_radius(double dt, Disc& disc) {
 void Particle::write_in_file(double time, Disc& disc) {
 
     fstream out;
-    out.open(file, ios::out | ios::app);
+    out.open(filename, ios::out | ios::app);
     // width - precision - value
     column_format(out, 10, 8, time/constants::years);
     column_format(out, 10, 8, radius/constants::au);
@@ -149,12 +149,12 @@ void Particle::set_filename() {
     else if (part_number < 100) { zeros = "00"; }
     else { zeros = "0"; }
 
-    file = "p_" + zeros + number_ss.str() + ".dat";
+    filename = "p_" + zeros + number_ss.str() + ".dat";
 }
 
 void Particle::init_outfile() {
     fstream out;
-    out.open(file, ios::out);
+    out.open(filename, ios::out);
     column_format(out, 10, 8, "time");
     column_format(out, 10, 8, "radius");
     column_format(out, 10, 8, "vdust");

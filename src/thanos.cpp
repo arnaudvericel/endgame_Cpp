@@ -8,33 +8,37 @@
 
 Thanos::Thanos(): filename("thanos_quotes.in") { read_quotesfile(); }
 
-void Thanos::talks_to_gamora() {
+void Thanos::talks_to_gamora() const {
     cout << endl;
-    cout << "Is it done?" << endl;
+    cout << "Gamora: Is it done?" << endl;
     sleep(1);
-    cout << "Y..." << flush;
+    cout << "Thanos: Y..." << flush;
     sleep(1);
     cout << "Yes" << endl;
     sleep(1);
-    cout << "What did it cost?" << endl;
+    cout << "Gamora: What did it cost?" << endl;
     sleep(2);
-    cout << "Everything..." << endl;
+    cout << "Thanos: Everything..." << endl;
     sleep(1);
 }
-void Thanos::init_punchline() { cout << "\nFine, I'll do it myself.\n" << endl; }
+void Thanos::init_punchline() const { cout << "\nThanos: Fine, I'll do it myself.\n" << endl; }
 
-void Thanos::regular_ending() {
+void Thanos::regular_ending() const
+{
     srand(time(NULL)); // init random seed
 
     int index_choice = rand() % (punchlines.size()-1); // generate index between 0 and length of punchlines vector
 
-    cout << "\n'" << punchlines[index_choice] << "'\n" << endl;
+    cout << "\nThanos: " << punchlines[index_choice] << "\n" << endl;
 }
 
-void Thanos::balanced_ending() { cout << "\nLooks pretty isn't it? Perfectly balanced, as all things should be.\n" << endl; }
+void Thanos::balanced_ending() const
+{
+    cout << "\nThanos: Looks pretty isn't it? Perfectly balanced, as all things should be.\n" << endl;
+}
 
-void Thanos::print_artwork() {
-
+void Thanos::print_artwork() const
+{
 cout << endl;
 cout << "**************/**,,,,,,,,,,,,,**//////*,,,,,,**,**,,,,,,,,,,,,*,,,,,,,,,,,,,,,,,,,,,,,,,,"<< endl;
 cout << "************(*,,,,,,,,,,,,,,,,,,,,,,*,,.,*,**,,,*,,,,,,,,,,*,,,*,,,,,,,,,,,,,,,,,,,,,,,,,"<< endl;

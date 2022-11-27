@@ -15,7 +15,7 @@ Simulation::Simulation() {
     delta_time   = 0.;
     n_dumps      = 0;
 
-    // output related (TODO)
+    // output related
     dir_name = "";
     isort    = 0;
     end_only = 0;
@@ -121,13 +121,14 @@ void Simulation::evolve() {
 
     bool writing_step = false;
 
-    while (current_time < maximum_time) {
+    while (current_time < maximum_time)
+    {
         current_time += delta_time;
-        writing_step  = isWritingStep();
+        writing_step  = is_writing_step();
 
         /* integrate equations */
         for (Particle& p: this->parts) {
-            if (!p.isAccreted()) {
+            if (!p.is_accreted()) {
                 p.update_size(delta_time, this->disc);
                 p.update_state(delta_time, this->disc);
                 p.update_radius(delta_time, this->disc);
@@ -141,12 +142,13 @@ void Simulation::evolve() {
 #endif
 }
 
-void Simulation::print_summary() {
+void Simulation::print_summary() const {
 
     int n_accreted = 0;
 
-    for (Particle& p: this->parts) {
-        if (p.isAccreted()) { n_accreted++; }
+    for (int i=0; i<this->parts.size(); i++)
+    {
+        if (this->parts[i].is_accreted()) { n_accreted++; }
     }
 
     // TO EMBELISH
@@ -167,7 +169,7 @@ void Simulation::print_summary() {
 /************** PRIVATE **************/
 /*************************************/
 
-void Simulation::display_code_name() {
+void Simulation::display_code_name() const {
     cout << "                                                                                                         " << endl;
     cout << "@@@@@@@@@@@% /@@@@     @@@@@ @@@@@@@@&,         @@@@@ @          @@@       @@@@@      @@@@@  @@@@@@@@@@@@" << endl;
     cout << "&@@      @%   @@@@%     @,   .@@     .@@@   @@@      @@        &&@@@       @@@@@     @@@@*    @@@      @"  << endl;
@@ -181,7 +183,7 @@ void Simulation::display_code_name() {
     cout << "-------------------------------------------------------------------------------------------------------\n" << endl;
 }
 
-void Simulation::display_loading_bar() {
+void Simulation::display_loading_bar() const {
 
     double progress = current_time / maximum_time;
     int bar_width = 100;
@@ -199,7 +201,7 @@ void Simulation::display_loading_bar() {
     if ((int)progress == 1) { cout << endl; }
 }
 
-bool Simulation::isWritingStep() {
+bool Simulation::is_writing_step() const {
 
     int step = (int) (current_time / delta_time);
     int nstep = (int)(maximum_time / delta_time);
@@ -210,17 +212,17 @@ bool Simulation::isWritingStep() {
     return (step%writing_step == 0) ;
 }
 
-bool Simulation::count_is_balanced(int n_accreted) {
+bool Simulation::count_is_balanced(int n_accreted) const {
     double threshold = 0.1; // 10% threshold for test TODO adjust
     double ratio = static_cast<double>(n_accreted/Particle::particle_count);
 
     return (abs(ratio - 0.5) <= threshold);
 }
 
-vector<string> Simulation::get_part_filenames() {
+vector<string> Simulation::get_part_filenames() const {
     vector<string> filenames;
-    for (Particle& p: this->parts) {
-        filenames.push_back(p.get_filename());
+    for (int i=0; i<this->parts.size(); i++) {
+        filenames.push_back(this->parts[i].get_filename());
     }
     return filenames;
 }

@@ -1,4 +1,4 @@
-#ifdef THANOS // only compile this part if thanos has been requested by user
+#ifdef THANOS // only compile this part if thanos has been requested by the user
 #ifndef THANOS_H
 #define THANOS_H
 
@@ -25,12 +25,13 @@ public:
     // destructor
     ~Thanos() = default;
 
-    // methods
-    void print_artwork();
-    void talks_to_gamora();
-    void init_punchline();
-    void regular_ending();
-    void balanced_ending();
+    void print_artwork() const;
+
+    // monologue methods
+    void talks_to_gamora() const;
+    void init_punchline() const;
+    void regular_ending() const;
+    void balanced_ending() const;
 };
 
 #endif

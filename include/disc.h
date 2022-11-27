@@ -63,42 +63,42 @@ public:
     ~Disc() = default;
 
     // getters - functions
-    double get_cs(double);
-    double get_nu(double);
-    double get_vk(double);
-    double get_omega_k(double);
-    double get_press(double);
-    double get_rhog(double);
-    double get_sigmag(double);
-    double get_h(double);
-    double get_hoverr(double);
-    double get_Temp(double);
-    double get_epsi(double);
-    double get_vdrift(double, double);
-    double get_vvisc(double, double);
+    double get_cs(double) const;
+    double get_nu(double) const;
+    double get_vk(double) const;
+    double get_omega_k(double) const;
+    double get_press(double) const;
+    double get_rhog(double) const;
+    double get_sigmag(double) const;
+    double get_h(double) const;
+    double get_hoverr(double) const;
+    double get_Temp(double) const;
+    double get_epsi(double) const;
+    double get_vdrift(double, double) const;
+    double get_vvisc(double, double) const;
 
     // getters - attributes
-    double get_rzero();
-    double get_vfrag();
-    double get_vfragin();
-    double get_vfragout();
-    double get_rsnow();
-    double get_Tsnow();
-    double get_smin();
-    double get_alpha();
-    double get_racc();
+    double get_rzero() const;
+    double get_vfrag() const;
+    double get_vfragin() const;
+    double get_vfragout() const;
+    double get_rsnow() const;
+    double get_Tsnow() const;
+    double get_smin() const;
+    double get_alpha() const;
+    double get_racc() const;
     //
-    int get_igrow();
-    int get_ifrag();
-    int get_isnow();
-    int get_ibump();
-    int get_istate();
-    int get_ibr();
+    int get_igrow() const;
+    int get_ifrag() const;
+    int get_isnow() const;
+    int get_ibump() const;
+    int get_istate() const;
+    int get_ibr() const;
 
     // methods
     void fill_disc_prop(ifstream&);
     void init_units();
-    void print_model();
+    void print_model() const;
 };
 
 #endif

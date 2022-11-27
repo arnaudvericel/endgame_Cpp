@@ -41,11 +41,11 @@ private:
 #endif
 
     // useful methods used by the public methods of this class
-    void display_code_name();
-    void display_loading_bar();
-    bool isWritingStep();
-    bool count_is_balanced(int);
-    vector<string> get_part_filenames();
+    void display_code_name() const;
+    void display_loading_bar() const;
+    bool is_writing_step() const;
+    bool count_is_balanced(int) const;
+    vector<string> get_part_filenames() const;
 public:
     /* constructor */
     Simulation(); // print code name here
@@ -58,7 +58,7 @@ public:
     void read_disc_infile(string); // fill Disc properties
     void init_all(); // init in SI units
     void evolve(); // time iteration and file output writing
-    void print_summary(); // end of simulation summary
+    void print_summary() const; // end of simulation summary
 };
 
 #endif
