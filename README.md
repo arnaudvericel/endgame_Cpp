@@ -54,7 +54,7 @@ which is going to launch the code with the example input files of that directory
 
 ```
 Arnaud@MacBook-Pro-de-Arnaud:~/Documents/Codes.nosync/endgame_Cpp/build
-: ./endgame 
+: ./endgame disc_example.in dust_example.in
 
 @@@@@@@@@@@% /@@@@     @@@@@ @@@@@@@@&,         @@@@@ @          @@@       @@@@@      @@@@@  @@@@@@@@@@@@
 &@@      @%   @@@@%     @,   .@@     .@@@   @@@      @@        &&@@@       @@@@@     @@@@*    @@@      @
@@ -88,7 +88,7 @@ H/R        = 2.83e-02
 
 ```
 Arnaud@MacBook-Pro-de-Arnaud:~/Documents/Codes.nosync/endgame_Cpp/build
-: ./endgame 
+: ./endgame disc_example.in dust_example.in
 
 @@@@@@@@@@@% /@@@@     @@@@@ @@@@@@@@&,         @@@@@ @          @@@       @@@@@      @@@@@  @@@@@@@@@@@@
 &@@      @%   @@@@%     @,   .@@     .@@@   @@@      @@        &&@@@       @@@@@     @@@@*    @@@      @
