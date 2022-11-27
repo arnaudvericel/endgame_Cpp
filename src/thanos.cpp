@@ -1,12 +1,12 @@
-#ifdef THANOS // only compile this part if thanos has been requested by user
+#ifdef THANOS // only compile this part if thanos has been requested by the user
 
 #include "../include/thanos.h"
+
+int ThanosQuotes::get_nb_quotes() const { return sizeof(database) / sizeof(string); }
 
 /*************************************/
 /************** PUBLIC ***************/
 /*************************************/
-
-Thanos::Thanos(): filename("thanos_quotes.in") { read_quotesfile(); }
 
 void Thanos::talks_to_gamora() const {
     cout << endl;
@@ -27,9 +27,9 @@ void Thanos::regular_ending() const
 {
     srand(time(NULL)); // init random seed
 
-    int index_choice = rand() % (punchlines.size()-1); // generate index between 0 and length of punchlines vector
+    int index_choice = rand() % (punchlines.get_nb_quotes()-1); // generate index between 0 and length of punchlines vector
 
-    cout << "\nThanos: " << punchlines[index_choice] << "\n" << endl;
+    cout << "\nThanos: " << punchlines.database[index_choice] << "\n" << endl;
 }
 
 void Thanos::balanced_ending() const
@@ -89,28 +89,6 @@ cout << "/////////////////,...,,,,.,,...........................................
 cout << "/////////////////*.....,,,..............................................................."<< endl;
 cout << "/////////////////*.........,,.......................................... ................."<< endl;
 cout << "//////////////////..........,,,,,,.,....................................................."<< endl;
-}
-
-/*************************************/
-/************** PRIVATE **************/
-/*************************************/
-
-void Thanos::read_quotesfile() {
-    string quote;
-    ifstream infile;
-    infile.open(filename);
-
-    if(infile.is_open()) {
-
-        while(infile) {
-            getline(infile, quote);
-            if (quote.length() > 1) { punchlines.push_back(quote); }
-        }
-    } else {
-        cout << "Error while opening " << filename << " (missing?)." << endl;
-    }
-
-    infile.close();
 }
 
 #endif

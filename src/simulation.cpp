@@ -213,8 +213,8 @@ bool Simulation::is_writing_step() const {
 }
 
 bool Simulation::count_is_balanced(int n_accreted) const {
-    double threshold = 0.1; // 10% threshold for test TODO adjust
-    double ratio = static_cast<double>(n_accreted/Particle::particle_count);
+    double threshold = 0.1;
+    double ratio = static_cast<double>(n_accreted * 1.0 / Particle::particle_count);
 
     return (abs(ratio - 0.5) <= threshold);
 }

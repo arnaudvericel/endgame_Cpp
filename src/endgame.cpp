@@ -2,10 +2,16 @@
 
 using namespace std;
 
-int main() {
+int main(int argc, char *argv[]) {
 
-    string disc_filename = "disc.in";
-    string dust_filename = "dust.in";
+    if (argc != 3)
+    {
+        cout << "Usage : ./endgame <disc_infile> <dust_infile>" << endl;
+        return 0;
+    }
+
+    string disc_filename = argv[argc-2];
+    string dust_filename = argv[argc-1];
 
     Simulation sim;
 
