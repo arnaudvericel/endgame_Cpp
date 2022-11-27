@@ -27,7 +27,7 @@ public:
     void set_dirname(string);
 
     // method
-    void sort_files(string, string, vector<string>) const;
+    void sort_files(string, string, const vector<string>&) const;
 };
 
 #endif

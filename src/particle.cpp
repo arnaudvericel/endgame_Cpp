@@ -45,7 +45,7 @@ void Particle::init_units() {
     // TODO: calculate rho in function of rho1 and rho2 when state changes are involved
 }
 
-void Particle::update_size(double dt, Disc& disc) {
+void Particle::update_size(double dt, const Disc& disc) {
 
     double ts = 0;
     double vrel = 0;
@@ -97,9 +97,9 @@ void Particle::update_size(double dt, Disc& disc) {
     }
 }
 
-void Particle::update_state(double dt, Disc& disc) { /* TODO */ }
+void Particle::update_state(double dt, const Disc& disc) { /* TODO */ }
 
-void Particle::update_radius(double dt, Disc& disc) {
+void Particle::update_radius(double dt, const Disc& disc) {
 
     vdrift   = disc.get_vdrift(St,radius);
     vviscous = disc.get_vvisc(St,radius);
@@ -113,7 +113,7 @@ void Particle::update_radius(double dt, Disc& disc) {
     }
 }
 
-void Particle::write_in_file(double time, Disc& disc) {
+void Particle::write_in_file(double time, const Disc& disc) {
 
     fstream out;
     out.open(filename, ios::out | ios::app);

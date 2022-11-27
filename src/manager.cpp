@@ -8,7 +8,7 @@ Manager::Manager(): run_directory("") {}
 
 void Manager::set_dirname(string dirname) { run_directory = dirname; }
 
-void Manager::sort_files(string dust_infile, string disc_infile, vector<string> particle_filenames) const
+void Manager::sort_files(string dust_infile, string disc_infile, const vector<string>& particle_filenames) const
 {
     bool sorting_is_okay = false;
 
@@ -37,7 +37,7 @@ void Manager::sort_files(string dust_infile, string disc_infile, vector<string> 
         copy_file(disc_infile);
 
         /* particle files */
-        for (string& p_file: particle_filenames) {
+        for (const string& p_file: particle_filenames) {
             move_file(p_file);
         }
     }

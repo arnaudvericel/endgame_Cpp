@@ -136,7 +136,7 @@ int Disc::get_ibr() const { return ibr; }
 
 void Disc::fill_disc_prop(ifstream& f) {
 
-    // read disc properties from first part of instream f
+    // read disc properties from its input stream
     buffer_file(f,2);
     f >> p >> q >> mdisc >> mstar >> racc >> rin >> rout >> rzero >> Tzero >> mu >> alpha >> phi >> w;
     buffer_file(f,4);

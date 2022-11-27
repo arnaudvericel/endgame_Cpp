@@ -62,10 +62,10 @@ public:
 
     // methods
     void init_units();
-    void update_size(double, Disc&);
-    void update_state(double, Disc&);
-    void update_radius(double, Disc&);
-    void write_in_file(double, Disc&);
+    void update_size(double, const Disc&);
+    void update_state(double, const Disc&);
+    void update_radius(double, const Disc&);
+    void write_in_file(double, const Disc&);
 };
 
 #endif

@@ -151,7 +151,6 @@ void Simulation::print_summary() const {
         if (this->parts[i].is_accreted()) { n_accreted++; }
     }
 
-    // TO EMBELISH
     cout << "\nPrinting summary after " << int(maximum_time/constants::years/1000) << " kyrs of simulation:" << endl;
     cout << left << setw(10) << "Accreted" << setw(3) << "|" << setw(10) << "Non-accreted" << endl;
     cout << left << setw(10) << n_accreted << setw(3) << "|" << setw(10) << Particle::particle_count - n_accreted << endl;
