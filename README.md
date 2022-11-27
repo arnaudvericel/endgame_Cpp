@@ -24,7 +24,7 @@ Each file contains the evolution of the particle's properties across the simulat
 To make the executable "endgame", make sure you have the g++ compiler and type:
 
 ```
-make
+make all
 ```
 
 For those who have time to waste, Thanos can also make some comments throughout the execution of the code. To allow Thanos to monologue, sometimes, compile the code with `THANOS=yes`.
@@ -33,7 +33,7 @@ For those who have time to waste, Thanos can also make some comments throughout 
 
 ## Your first endgame simulation:
 
-To execute endgame, the user needs to provide 2 command line arguments in the order specified below :
+To execute endgame, the user needs to provide 2 command line arguments in the order specified below:
 
 * the name of the disc input file.
 * the name of the dust input file.
@@ -54,7 +54,7 @@ which is going to launch the code with the example input files of that directory
 
 ```
 Arnaud@MacBook-Pro-de-Arnaud:~/Documents/Codes.nosync/endgame_Cpp/build
-: ./endgame 
+: ./endgame disc_example.in dust_example.in
 
 @@@@@@@@@@@% /@@@@     @@@@@ @@@@@@@@&,         @@@@@ @          @@@       @@@@@      @@@@@  @@@@@@@@@@@@
 &@@      @%   @@@@%     @,   .@@     .@@@   @@@      @@        &&@@@       @@@@@     @@@@*    @@@      @
@@ -88,7 +88,7 @@ H/R        = 2.83e-02
 
 ```
 Arnaud@MacBook-Pro-de-Arnaud:~/Documents/Codes.nosync/endgame_Cpp/build
-: ./endgame 
+: ./endgame disc_example.in dust_example.in
 
 @@@@@@@@@@@% /@@@@     @@@@@ @@@@@@@@&,         @@@@@ @          @@@       @@@@@      @@@@@  @@@@@@@@@@@@
 &@@      @%   @@@@%     @,   .@@     .@@@   @@@      @@        &&@@@       @@@@@     @@@@*    @@@      @
