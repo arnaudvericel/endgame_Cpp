@@ -33,7 +33,7 @@ For those who have time to waste, Thanos can also make some comments throughout 
 
 ## Your first endgame simulation:
 
-To execute endgame, the user needs to provide 2 command line arguments in the order specified below :
+To execute endgame, the user needs to provide 2 command line arguments in the order specified below:
 
 * the name of the disc input file.
 * the name of the dust input file.
