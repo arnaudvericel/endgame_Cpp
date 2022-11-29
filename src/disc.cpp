@@ -132,6 +132,12 @@ int Disc::get_istate() const { return istate; }
 
 int Disc::get_ibr() const { return ibr; }
 
+double Disc::get_rhoin() const { return rhoin; }
+
+double Disc::get_rhoout() const { return rhoout; }
+
+double Disc::get_mratio() const { return mratio; }
+
 /* METHODS */
 
 void Disc::fill_disc_prop(ifstream& f) {

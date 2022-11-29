@@ -7,9 +7,9 @@
 int Particle::particle_count = 0;
 
 Particle::Particle() {
-    // state
-    iam      = 0;
-    iwas     = 0;
+    // state of the particle
+    iam      = VolatilesState::Undefined;
+    iwas     = VolatilesState::Undefined;
     accreted = false;
     // properties
     size        = 0;
@@ -67,21 +67,21 @@ void Particle::update_size(double dt, const Disc& disc) {
                 case(1):
                     if (radius<=disc.get_rsnow()) {
                         vrelonvfrag = vrel / disc.get_vfragin();
-                        iam = 1;
+                        iam = VolatilesState::Gas;
                     }
                     else {
                         vrelonvfrag = vrel / disc.get_vfragout();
-                        iam = 2;
+                        iam = VolatilesState::Solid;
                     }
                     break;
                 case(2):
                     if (disc.get_Temp(radius) >= disc.get_Tsnow()) {
                         vrelonvfrag = vrel / disc.get_vfragin();
-                        iam = 1;
+                        iam = VolatilesState::Gas;
                     }
                     else {
                         vrelonvfrag = vrel / disc.get_vfragout();
-                        iam = 2;
+                        iam = VolatilesState::Solid;
                     }
                     break;
             }
@@ -97,15 +97,23 @@ void Particle::update_size(double dt, const Disc& disc) {
     }
 }
 
-void Particle::update_state(double dt, const Disc& disc) { /* TODO */ }
+void Particle::update_state(const Disc& disc) {
+
+    if (disc.get_istate() == 1)
+    {
+        if (should_sublimate()) { sublimate(disc); }
+        if (should_condense()) { condense(disc); }
+        iwas = iam;
+    }
+}
 
 void Particle::update_radius(double dt, const Disc& disc) {
 
-    vdrift   = disc.get_vdrift(St,radius);
-    vviscous = disc.get_vvisc(St,radius);
+    vdrift   = disc.get_vdrift(St, radius);
+    vviscous = disc.get_vvisc(St, radius);
     velocity = vdrift + vviscous;
 
-    radius  += velocity*dt;
+    radius  += velocity * dt;
 
     if (radius <= disc.get_racc()) {
         accreted = true;
@@ -138,6 +146,40 @@ void Particle::write_in_file(double time, const Disc& disc) {
 /*************************************/
 /************** PRIVATE **************/
 /*************************************/
+
+bool Particle::should_sublimate() const {
+
+    return (iam == VolatilesState::Gas && iwas == VolatilesState::Solid);
+}
+
+bool Particle::should_condense() const {
+
+    return (iam == VolatilesState::Solid && iwas == VolatilesState::Gas);
+}
+
+void Particle::sublimate(const Disc& disc) {
+
+    cout << part_number << " sublimates" << endl;
+    double rhoin = disc.get_rhoin();
+    double rhoout = disc.get_rhoout();
+    double mratio = disc.get_mratio();
+
+    double numerator = this->size * (rhoout * (1 - mratio));
+    double denominator = rhoin * mratio + (1 - mratio) * rhoout;
+
+    if (denominator != 0.)
+    {
+        this->size = pow((numerator / denominator), 1./3.);
+    }
+
+    if (this->size < disc.get_smin()) { this->size = disc.get_smin(); }
+
+    this->rho = rhoin;
+}
+
+void Particle::condense(const Disc& disc) {
+    // todo
+}
 
 void Particle::set_filename() {
 

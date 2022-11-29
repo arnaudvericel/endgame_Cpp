@@ -9,14 +9,20 @@
 
 using namespace std;
 
+enum VolatilesState {
+    Undefined = 0,
+    Gas,
+    Solid
+};
+
 class Particle {
 private:
     // particle number
     int part_number;
 
-    // state
-    int iam;
-    int iwas;
+    // state of the particle
+    VolatilesState iam;
+    VolatilesState iwas;
     bool accreted;
 
     // properties
@@ -36,6 +42,10 @@ private:
     // method
     void set_filename();
     void init_outfile();
+    bool should_sublimate() const;
+    bool should_condense() const;
+    void sublimate(const Disc&);
+    void condense(const Disc&);
 public:
     // number of particles, shared across all instances of Particle class
     static int particle_count;
@@ -63,7 +73,7 @@ public:
     // methods
     void init_units();
     void update_size(double, const Disc&);
-    void update_state(double, const Disc&);
+    void update_state(const Disc&);
     void update_radius(double, const Disc&);
     void write_in_file(double, const Disc&);
 };

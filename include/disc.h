@@ -87,6 +87,9 @@ public:
     double get_smin() const;
     double get_alpha() const;
     double get_racc() const;
+    double get_rhoin() const;
+    double get_rhoout() const;
+    double get_mratio() const;
     //
     int get_igrow() const;
     int get_ifrag() const;

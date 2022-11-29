@@ -130,7 +130,7 @@ void Simulation::evolve() {
         for (Particle& p: this->parts) {
             if (!p.is_accreted()) {
                 p.update_size(delta_time, this->disc);
-                p.update_state(delta_time, this->disc);
+                p.update_state(this->disc);
                 p.update_radius(delta_time, this->disc);
             }
             if (writing_step) { p.write_in_file(current_time, this->disc); }
