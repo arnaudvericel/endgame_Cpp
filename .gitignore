@@ -3,3 +3,5 @@
 /build/dust.in
 /build/disc.in
 .DS_Store
+.vscode
+
