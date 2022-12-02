@@ -2,8 +2,6 @@
 
 #include "../include/thanos.h"
 
-int ThanosQuotes::get_nb_quotes() const { return sizeof(database) / sizeof(string); }
-
 /*************************************/
 /************** PUBLIC ***************/
 /*************************************/

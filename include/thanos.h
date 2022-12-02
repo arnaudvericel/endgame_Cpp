@@ -10,7 +10,7 @@
 
 using namespace std;
 
-struct ThanosQuotes {
+struct {
     string database[18] = {
         "Little one, it’s a simple calculus. This universe is finite, its resources, finite. If life is left unchecked, life will cease to exist. It needs correcting.",
         "I hope they remember you.",
@@ -30,15 +30,12 @@ struct ThanosQuotes {
         "You should’ve gone for the head.",
         "A small price to pay for salvation.",
         "You couldn’t live with your own failure. Where did that bring you? Back to me."
-    };
+        };
 
-    int get_nb_quotes() const;
-};
+    inline int get_nb_quotes() const { return sizeof(database) / sizeof(string); }
+} punchlines;
 
 class Thanos {
-private:
-    ThanosQuotes punchlines;
-
 public:
     // constructor
     Thanos() = default;
