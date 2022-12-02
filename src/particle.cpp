@@ -1,4 +1,5 @@
 #include "../include/particle.h"
+#include "../include/disc.h"
 
 /*************************************/
 /************** PUBLIC ***************/
@@ -6,7 +7,7 @@
 
 int Particle::particle_count = 0;
 
-Particle::Particle() {
+Particle::Particle(Disc* my_disc) {
     // state of the particle
     iam      = VolatilesState::Undefined;
     iwas     = VolatilesState::Undefined;
@@ -27,9 +28,11 @@ Particle::Particle() {
     set_filename();
     init_outfile();
 
+    disc = my_disc;
+
 }
 
-Particle::Particle(double s, double r, double rh): Particle() {
+Particle::Particle(Disc* my_disc, double s, double r, double rh): Particle(my_disc) {
     this->size   = s;
     this->radius = r;
     this->rho    = rh;
@@ -45,51 +48,51 @@ void Particle::init_units() {
     // TODO: calculate rho in function of rho1 and rho2 when state changes are involved
 }
 
-void Particle::update_size(double dt, const Disc& disc) {
+void Particle::update_size(const double dt) {
 
     double ts = 0;
     double vrel = 0;
 
-    ts = rho*size / (disc.get_rhog(radius) * disc.get_cs(radius));
-    St = ts * disc.get_omega_k(radius);
+    ts = rho*size / (disc->get_rhog(radius) * disc->get_cs(radius));
+    St = ts * disc->get_omega_k(radius);
 
-    if (disc.get_igrow() == 1) {
-        vrel = sqrt(pow(2,(3./2.))*disc.get_alpha()*constants::Ro) * disc.get_cs(radius) * sqrt(St)/(1+St);
-        growthrate = disc.get_epsi(radius)*disc.get_rhog(radius)/rho*vrel;
-        if (disc.get_ifrag() == 0) {
+    if (disc->get_igrow() == 1) {
+        vrel = sqrt(pow(2,(3./2.))*disc->get_alpha()*constants::Ro) * disc->get_cs(radius) * sqrt(St)/(1+St);
+        growthrate = disc->get_epsi(radius)*disc->get_rhog(radius)/rho*vrel;
+        if (disc->get_ifrag() == 0) {
             vrelonvfrag = vrel;
         }
         else {
-            switch(disc.get_isnow()) {
+            switch(disc->get_isnow()) {
                 case(0):
-                    vrelonvfrag = vrel/disc.get_vfrag();
+                    vrelonvfrag = vrel/disc->get_vfrag();
                     break;
                 case(1):
-                    if (radius<=disc.get_rsnow()) {
-                        vrelonvfrag = vrel / disc.get_vfragin();
+                    if (radius<=disc->get_rsnow()) {
+                        vrelonvfrag = vrel / disc->get_vfragin();
                         iam = VolatilesState::Gas;
                     }
                     else {
-                        vrelonvfrag = vrel / disc.get_vfragout();
+                        vrelonvfrag = vrel / disc->get_vfragout();
                         iam = VolatilesState::Solid;
                     }
                     break;
                 case(2):
-                    if (disc.get_Temp(radius) >= disc.get_Tsnow()) {
-                        vrelonvfrag = vrel / disc.get_vfragin();
+                    if (disc->get_Temp(radius) >= disc->get_Tsnow()) {
+                        vrelonvfrag = vrel / disc->get_vfragin();
                         iam = VolatilesState::Gas;
                     }
                     else {
-                        vrelonvfrag = vrel / disc.get_vfragout();
+                        vrelonvfrag = vrel / disc->get_vfragout();
                         iam = VolatilesState::Solid;
                     }
                     break;
             }
         }
 
-        if (vrelonvfrag < 1. || disc.get_ifrag() == 0) size += growthrate * dt;
-        if (vrelonvfrag >= 1. && disc.get_ifrag() > 0) size -= growthrate * dt;
-        if (size < disc.get_smin()) size = disc.get_smin();
+        if (vrelonvfrag < 1. || disc->get_ifrag() == 0) size += growthrate * dt;
+        if (vrelonvfrag >= 1. && disc->get_ifrag() > 0) size -= growthrate * dt;
+        if (size < disc->get_smin()) size = disc->get_smin();
     }
     else {
         vrelonvfrag = 0.;
@@ -97,31 +100,38 @@ void Particle::update_size(double dt, const Disc& disc) {
     }
 }
 
-void Particle::update_state(const Disc& disc) {
+void Particle::update_state() {
 
-    if (disc.get_istate() == 1)
+    if (disc->get_istate() == 1)
     {
-        if (should_sublimate()) { sublimate(disc); }
-        if (should_condense()) { condense(disc); }
+        if (should_sublimate()) { sublimate(); }
+        if (should_condense()) { condense(); }
         iwas = iam;
     }
 }
 
-void Particle::update_radius(double dt, const Disc& disc) {
+void Particle::update_radius(const double dt) {
 
-    vdrift   = disc.get_vdrift(St, radius);
-    vviscous = disc.get_vvisc(St, radius);
+    vdrift   = disc->get_vdrift(St, radius);
+    vviscous = disc->get_vvisc(St, radius);
     velocity = vdrift + vviscous;
 
     radius  += velocity * dt;
 
-    if (radius <= disc.get_racc()) {
+    if (radius <= disc->get_racc()) {
         accreted = true;
-        radius = disc.get_racc();
+        radius = disc->get_racc();
     }
 }
 
-void Particle::write_in_file(double time, const Disc& disc) {
+void Particle::update(const double delta_time)
+{
+    this->update_size(delta_time);
+    this->update_state();
+    this->update_radius(delta_time);
+}
+
+void Particle::write_in_file(const double time) {
 
     fstream out;
     out.open(filename, ios::out | ios::app);
@@ -136,9 +146,9 @@ void Particle::write_in_file(double time, const Disc& disc) {
     column_format(out, 10, 8, St);
     column_format(out, 10, 8, vrelonvfrag);
     column_format(out, 10, 8, rho);
-    column_format(out, 10, 8, disc.get_rhog(radius));
-    column_format(out, 10, 8, disc.get_epsi(radius));
-    column_format(out, 10, 8, disc.get_press(radius));
+    column_format(out, 10, 8, disc->get_rhog(radius));
+    column_format(out, 10, 8, disc->get_epsi(radius));
+    column_format(out, 10, 8, disc->get_press(radius));
     out << endl;
     out.close();
 }
@@ -157,12 +167,12 @@ bool Particle::should_condense() const {
     return (iam == VolatilesState::Solid && iwas == VolatilesState::Gas);
 }
 
-void Particle::sublimate(const Disc& disc) {
+void Particle::sublimate() {
 
     cout << part_number << " sublimates" << endl;
-    double rhoin = disc.get_rhoin();
-    double rhoout = disc.get_rhoout();
-    double mratio = disc.get_mratio();
+    double rhoin = disc->get_alpha();
+    double rhoout = disc->get_rhoout();
+    double mratio = disc->get_mratio();
 
     double numerator = this->size * (rhoout * (1 - mratio));
     double denominator = rhoin * mratio + (1 - mratio) * rhoout;
@@ -172,12 +182,12 @@ void Particle::sublimate(const Disc& disc) {
         this->size = pow((numerator / denominator), 1./3.);
     }
 
-    if (this->size < disc.get_smin()) { this->size = disc.get_smin(); }
+    if (this->size < disc->get_smin()) { this->size = disc->get_smin(); }
 
     this->rho = rhoin;
 }
 
-void Particle::condense(const Disc& disc) {
+void Particle::condense() {
     // todo
 }
 

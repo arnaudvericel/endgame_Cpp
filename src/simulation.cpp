@@ -49,7 +49,7 @@ void Simulation::read_particle_infile(string filename) {
             double rho    = 0;
             int toto      = 0;
             infile >> toto >> size >> radius >> rho;
-            this->parts.push_back(Particle(size,radius,rho));
+            this->parts.push_back(new Particle(&disc, size, radius, rho));
         }
 
         cout << "...done." << endl;
@@ -100,8 +100,8 @@ void Simulation::init_all() {
     this->disc.init_units();
 
     // init parts units
-    for(Particle& p: this->parts) {
-        p.init_units();
+    for(Particle* p: this->parts) {
+        p->init_units();
     }
 
     double time_factor = 2*constants::pi/(disc.get_omega_k(disc.get_rzero()));
@@ -126,14 +126,13 @@ void Simulation::evolve() {
         current_time += delta_time;
         writing_step  = is_writing_step();
 
-        /* integrate equations */
-        for (Particle& p: this->parts) {
-            if (!p.is_accreted()) {
-                p.update_size(delta_time, this->disc);
-                p.update_state(this->disc);
-                p.update_radius(delta_time, this->disc);
+        for (Particle* particle : this->parts)
+        {
+            if (!particle->is_accreted()) 
+            {
+                particle->update(delta_time);
             }
-            if (writing_step) { p.write_in_file(current_time, this->disc); }
+            if (writing_step) { particle->write_in_file(current_time); }
         }
         display_loading_bar();
     }
@@ -148,7 +147,7 @@ void Simulation::print_summary() const {
 
     for (int i=0; i<this->parts.size(); i++)
     {
-        if (this->parts[i].is_accreted()) { n_accreted++; }
+        if (this->parts[i]->is_accreted()) { n_accreted++; }
     }
 
     cout << "\nPrinting summary after " << int(maximum_time/constants::years/1000) << " kyrs of simulation:" << endl;
@@ -221,7 +220,17 @@ bool Simulation::count_is_balanced(int n_accreted) const {
 vector<string> Simulation::get_part_filenames() const {
     vector<string> filenames;
     for (int i=0; i<this->parts.size(); i++) {
-        filenames.push_back(this->parts[i].get_filename());
+        filenames.push_back(this->parts[i]->get_filename());
     }
     return filenames;
+}
+
+void Simulation::finish()
+{
+    this->print_summary();
+    
+    for (Particle* particle : this->parts)
+    {
+        delete particle;
+    }
 }

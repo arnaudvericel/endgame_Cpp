@@ -4,8 +4,11 @@
 #include <iostream>
 #include <sstream>
 #include <cmath>
+#include <iomanip>
+
 #include "utils.h"
-#include "disc.h"
+
+class Disc;
 
 using namespace std;
 
@@ -36,23 +39,30 @@ private:
     double growthrate;
     double rho;
 
+    // disc owner
+    Disc* disc;
+
     // outfiles
     string filename;
 
-    // method
+    // methods
     void set_filename();
     void init_outfile();
     bool should_sublimate() const;
     bool should_condense() const;
-    void sublimate(const Disc&);
-    void condense(const Disc&);
+    void sublimate();
+    void condense();
+    void update_size(const double);
+    void update_state();
+    void update_radius(const double);
+    
 public:
     // number of particles, shared across all instances of Particle class
     static int particle_count;
 
     // constructors
-    Particle();
-    Particle(double, double, double);
+    Particle(Disc*);
+    Particle(Disc*, double, double, double);
 
     // destructor
     ~Particle() = default;
@@ -72,10 +82,8 @@ public:
 
     // methods
     void init_units();
-    void update_size(double, const Disc&);
-    void update_state(const Disc&);
-    void update_radius(double, const Disc&);
-    void write_in_file(double, const Disc&);
+    void update(const double);
+    void write_in_file(const double);
 };
 
 #endif

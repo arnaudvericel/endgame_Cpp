@@ -33,7 +33,7 @@ private:
     int end_only;
 
     // Higher level objects
-    vector<Particle> parts; // vector of Particles
+    vector<Particle*> parts; // vector of Particle pointers
     Disc disc; // disc object
     Manager michel;
 #ifdef THANOS
@@ -46,6 +46,7 @@ private:
     bool is_writing_step() const;
     bool count_is_balanced(int) const;
     vector<string> get_part_filenames() const;
+    void print_summary() const; // end of simulation summary
 public:
     /* constructor */
     Simulation(); // print code name here
@@ -58,7 +59,7 @@ public:
     void read_disc_infile(string); // fill Disc properties
     void init_all(); // init in SI units
     void evolve(); // time iteration and file output writing
-    void print_summary() const; // end of simulation summary
+    void finish(); // free all the dynamic memory allocations and print summary
 };
 
 #endif
