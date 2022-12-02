@@ -1,5 +1,5 @@
-CC = g++ # adapt to your system
-FLAGS = -g -Wall -std=c++11 # c++11 is essential
+CC = g++
+FLAGS = -g -Wall -std=c++11
 
 SDIR = ../src
 IDIR = ../include
